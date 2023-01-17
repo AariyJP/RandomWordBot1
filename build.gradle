@@ -18,12 +18,12 @@ dependencies {
 jar {
     //noinspection GroovyAssignabilityCheck
     manifest {
-        attributes "Main-Class": "Main"
+        attributes "Main-Class": "net.aariy.Main"
     }
 }
 
 shadowJar {
-    archiveFileName = "ane.jar"
+    archiveFileName = "RandomWordBot1.jar"
 }
 
 classes {
