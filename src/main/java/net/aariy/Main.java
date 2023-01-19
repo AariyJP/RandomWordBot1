@@ -49,7 +49,8 @@ public class Main extends ListenerAdapter
                 }
                 out.close();
                 in.close();
-                e.getHook().sendMessage(list[sc.nextInt(1)]).addFiles(FileUpload.fromData(tmp, "imaage.png")).queue();
+                e.getHook().sendFiles(FileUpload.fromData(tmp, "imaage.png")).queue();
+                e.getChannel().sendMessage(list[sc.nextInt(1)]).queue();
             }
             catch(IOException ex)
             {
