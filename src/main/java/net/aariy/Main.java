@@ -45,7 +45,7 @@ public class Main extends ListenerAdapter
             e.deferReply().queue();
             SecureRandom sc = new SecureRandom();
             int a = sc.nextInt(node.size());
-            String[] res = node.get(a).asText().split("\\|");
+            String[] res = node.get(a+"").asText().split("\\|");
             e.reply(res[0]).queue();
             e.getChannel().sendMessage(res[1]).queue();
             /*
@@ -74,8 +74,9 @@ public class Main extends ListenerAdapter
         }
         if(e.getName().equals("add"))
         {
-            node.put(""+node.size()+1, "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
+            node.put(node.size()+"", "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
             reload();
+            e.reply("✅ 登録しました。").setEphemeral(true).queue();
         }
     }
     public static void reload()
