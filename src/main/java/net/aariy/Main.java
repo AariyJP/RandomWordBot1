@@ -1,5 +1,6 @@
 package net.aariy;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -32,7 +33,9 @@ public class Main extends ListenerAdapter
                 Commands.slash("起動1", "ランダムに文章と画像を表示します。"),
                 Commands.slash("add", "メッセージと画像を追加します。")
                         .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
-                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true),
+                Commands.slash("delete", "メッセージを削除します。")
+                        .addOption(OptionType.STRING, "番号", "メッセージに対応する番号（空で番号表示）")
         ).queue();
         jda.addEventListener(new Main());
     }
@@ -45,7 +48,7 @@ public class Main extends ListenerAdapter
             SecureRandom sc = new SecureRandom();
             if(node.size() == 0)
             {
-                e.reply(":no_entry_sign: 未登録です。").queue();
+                e.reply(":no_entry_sign: 未登録です。").setEphemeral(true).queue();
                 return;
             }
             int a = sc.nextInt(node.size());
@@ -81,6 +84,25 @@ public class Main extends ListenerAdapter
             node.put(node.size()+"", "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
             reload();
             e.reply("✅ 登録しました。").setEphemeral(true).queue();
+        }
+        if(e.getName().equals("delete"))
+        {
+            if(e.getOption("番号") != null)
+            {
+                node.remove(e.getOption("番号").getAsString());
+                e.reply(":white_check_mark: 削除しました。").setEphemeral(true).queue();
+            }
+            else
+            {
+                try
+                {
+                    e.reply(":white_check_mark: **削除するには`/delete 数字`を入力してください。**\n```"+new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(node).replaceAll("[{}]", "")+"```").setEphemeral(true).queue();
+                }
+                catch(JsonProcessingException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
     public static void reload()
