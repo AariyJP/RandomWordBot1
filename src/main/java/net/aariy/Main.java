@@ -42,11 +42,10 @@ public class Main extends ListenerAdapter
     {
         if(e.getName().equals("起動1"))
         {
-            e.deferReply().queue();
             SecureRandom sc = new SecureRandom();
             int a = sc.nextInt(node.size());
             String[] res = node.get(a+"").asText().split("\\|");
-            e.getHook().sendMessage(res[0]).queue();
+            e.reply(res[0]).queue();
             e.getChannel().sendMessage(res[1]).queue();
             /*
             String[] list = {"文章1"};
