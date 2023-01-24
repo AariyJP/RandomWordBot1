@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -28,7 +29,10 @@ public class Main extends ListenerAdapter
         node = new ObjectMapper().readTree(FILE).deepCopy();
         JDA jda = JDABuilder.createDefault(args[0]).enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES).setMemberCachePolicy(MemberCachePolicy.ALL).build();
         jda.updateCommands().addCommands(
-                Commands.slash("起動1", "ランダムに文章を表示します。")
+                Commands.slash("起動1", "ランダムに文章と画像を表示します。"),
+                Commands.slash("add", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "", true)
         ).queue();
         jda.addEventListener(new Main());
     }
@@ -40,6 +44,10 @@ public class Main extends ListenerAdapter
         {
             e.deferReply().queue();
             SecureRandom sc = new SecureRandom();
+            String target = sc.nextInt(node.size())+"";
+            String[] res = node.get(target).asText().split("\\|");
+            e.reply(res[0]).queue();
+            e.getChannel().sendMessage(res[1]).queue();
             /*
             String[] list = {"文章1"};
             try
@@ -66,6 +74,8 @@ public class Main extends ListenerAdapter
         }
         if(e.getName().equals("add"))
         {
+            node.put(""+node.size()+1, "%s|%s".formatted(e.getOption("メッセージ"), e.getOption("画像url")));
+            reload();
         }
     }
     public static void reload()
