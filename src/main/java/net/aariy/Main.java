@@ -43,6 +43,11 @@ public class Main extends ListenerAdapter
         if(e.getName().equals("起動1"))
         {
             SecureRandom sc = new SecureRandom();
+            if(node.size() == 0)
+            {
+                e.reply(":no_entry_sign: 未登録です。").queue();
+                return;
+            }
             int a = sc.nextInt(node.size());
             String[] res = node.get(a+"").asText().split("\\|");
             e.reply(res[0]).queue();
