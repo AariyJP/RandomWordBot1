@@ -46,7 +46,7 @@ public class Main extends ListenerAdapter
             SecureRandom sc = new SecureRandom();
             int a = sc.nextInt(node.size());
             String[] res = node.get(a+"").asText().split("\\|");
-            e.reply(res[0]).queue();
+            e.getHook().sendMessage(res[0]).queue();
             e.getChannel().sendMessage(res[1]).queue();
             /*
             String[] list = {"文章1"};
