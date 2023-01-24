@@ -32,10 +32,11 @@ public class Main extends ListenerAdapter
         jda.updateCommands().addCommands(
                 Commands.slash("起動1", "ランダムに文章と画像を表示します。"),
                 Commands.slash("add", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "id", "削除の際に使用するID", true)
                         .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
                         .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true),
                 Commands.slash("delete", "メッセージを削除します。")
-                        .addOption(OptionType.STRING, "番号", "メッセージに対応する番号（空で番号表示）")
+                        .addOption(OptionType.STRING, "id", "削除するメッセージid")
         ).queue();
         jda.addEventListener(new Main());
     }
@@ -52,7 +53,7 @@ public class Main extends ListenerAdapter
                 return;
             }
             int a = sc.nextInt(node.size());
-            String[] res = node.get(a+"").asText().split("\\|");
+            String[] res = node.get(0).asText().split("\\|");
             e.reply(res[0]).queue();
             e.getChannel().sendMessage(res[1]).queue();
             /*
@@ -81,22 +82,23 @@ public class Main extends ListenerAdapter
         }
         if(e.getName().equals("add"))
         {
-            node.put(node.size()+"", "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
+            node.remove(e.getOption("id").getAsString());
+            node.put(e.getOption("id").getAsString(), "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
             reload();
             e.reply("✅ 登録しました。").setEphemeral(true).queue();
         }
         if(e.getName().equals("delete"))
         {
-            if(e.getOption("番号") != null)
+            if(e.getOption("id") != null)
             {
-                node.remove(e.getOption("番号").getAsString());
+                node.remove(e.getOption("id").getAsString());
                 e.reply(":white_check_mark: 削除しました。").setEphemeral(true).queue();
             }
             else
             {
                 try
                 {
-                    e.reply(":white_check_mark: **削除するには`/delete 数字`を入力してください。**\n```"+new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(node).replaceAll("[{}]", "")+"```").setEphemeral(true).queue();
+                    e.reply(":white_check_mark: **削除するには`/delete id`を入力してください。**\n```"+new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(node).replaceAll("[{}]", "")+"```").setEphemeral(true).queue();
                 }
                 catch(JsonProcessingException ex)
                 {
