@@ -1,6 +1,5 @@
 package net.aariy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -8,6 +7,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -34,9 +34,11 @@ public class Main extends ListenerAdapter
                 Commands.slash("add", "メッセージと画像を追加します。")
                         .addOption(OptionType.STRING, "id", "削除の際に使用するID", true)
                         .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
-                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true),
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
                 Commands.slash("delete", "メッセージを削除します。")
                         .addOption(OptionType.STRING, "id", "削除するメッセージid")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED)
         ).queue();
         jda.addEventListener(new Main());
     }
@@ -53,7 +55,7 @@ public class Main extends ListenerAdapter
                 return;
             }
             int a = sc.nextInt(node.size());
-            String[] res = node.get(0).asText().split("\\|");
+            String[] res = node.get(""+a).asText().split("\\|");
             e.reply(res[0]).queue();
             e.getChannel().sendMessage(res[1]).queue();
             /*
@@ -82,29 +84,15 @@ public class Main extends ListenerAdapter
         }
         if(e.getName().equals("add"))
         {
-            node.remove(e.getOption("id").getAsString());
-            node.put(e.getOption("id").getAsString(), "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
+            node.put(String.valueOf(node.size()+1), "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
             reload();
             e.reply("✅ 登録しました。").setEphemeral(true).queue();
         }
         if(e.getName().equals("delete"))
         {
-            if(e.getOption("id") != null)
-            {
-                node.remove(e.getOption("id").getAsString());
-                e.reply(":white_check_mark: 削除しました。").setEphemeral(true).queue();
-            }
-            else
-            {
-                try
-                {
-                    e.reply(":white_check_mark: **削除するには`/delete id`を入力してください。**\n```"+new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValueAsString(node).replaceAll("[{}]", "")+"```").setEphemeral(true).queue();
-                }
-                catch(JsonProcessingException ex)
-                {
-                    throw new RuntimeException(ex);
-                }
-            }
+            node.removeAll();
+            reload();
+            e.reply("✅ 全削除しました。").setEphemeral(true).queue();
         }
     }
     public static void reload()
