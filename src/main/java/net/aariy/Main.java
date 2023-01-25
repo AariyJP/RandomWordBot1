@@ -32,12 +32,10 @@ public class Main extends ListenerAdapter
         jda.updateCommands().addCommands(
                 Commands.slash("起動1", "ランダムに文章と画像を表示します。"),
                 Commands.slash("add", "メッセージと画像を追加します。")
-                        .addOption(OptionType.STRING, "id", "削除の際に使用するID", true)
                         .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
                         .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
                         .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
                 Commands.slash("delete", "メッセージを削除します。")
-                        .addOption(OptionType.STRING, "id", "削除するメッセージid")
                         .setDefaultPermissions(DefaultMemberPermissions.DISABLED)
         ).queue();
         jda.addEventListener(new Main());
