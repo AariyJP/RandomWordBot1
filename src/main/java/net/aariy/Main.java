@@ -35,7 +35,7 @@ public class Main extends ListenerAdapter
                         .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
                         .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
                         .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
-                Commands.slash("delete", "メッセージを削除します。")
+                Commands.slash("delete", "メッセージを全削除します。")
                         .setDefaultPermissions(DefaultMemberPermissions.DISABLED)
         ).queue();
         jda.addEventListener(new Main());
