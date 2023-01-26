@@ -31,12 +31,76 @@ public class Main extends ListenerAdapter
         JDA jda = JDABuilder.createDefault(args[0]).enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_PRESENCES).setMemberCachePolicy(MemberCachePolicy.ALL).build();
         jda.updateCommands().addCommands(
                 Commands.slash("起動1", "ランダムに文章と画像を表示します。"),
-                Commands.slash("add", "メッセージと画像を追加します。")
+                Commands.slash("起動2", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動3", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動4", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動5", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動6", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動7", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動8", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動9", "ランダムに文章と画像を表示します。"),
+                Commands.slash("起動10", "ランダムに文章と画像を表示します。"),
+                Commands.slash("add1", "メッセージと画像を追加します。")
                         .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
                         .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
                         .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
-                Commands.slash("delete", "メッセージを全削除します。")
+                Commands.slash("add2", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add3", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add4", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add5", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add6", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add7", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add8", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add9", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("add10", "メッセージと画像を追加します。")
+                        .addOption(OptionType.STRING, "メッセージ", "送信するメッセージ内容", true)
+                        .addOption(OptionType.STRING, "画像url", "送信する画像へのリンク", true)
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete1", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete2", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete3", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete4", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete5", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete6", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete7", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete8", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete9", "メッセージを全削除します。")
+                        .setDefaultPermissions(DefaultMemberPermissions.DISABLED),
+                Commands.slash("delete10", "メッセージを全削除します。")
                         .setDefaultPermissions(DefaultMemberPermissions.DISABLED)
+
         ).queue();
         jda.addEventListener(new Main());
     }
@@ -44,16 +108,16 @@ public class Main extends ListenerAdapter
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent e)
     {
-        if(e.getName().equals("起動1"))
+        if(e.getName().startsWith("起動"))
         {
             SecureRandom sc = new SecureRandom();
-            if(node.size() == 0)
+            if(node.get(e.getName().substring(2)) != null && node.get(e.getName().substring(2)).size() == 0)
             {
                 e.reply(":no_entry_sign: 未登録です。").setEphemeral(true).queue();
                 return;
             }
-            int a = sc.nextInt(node.size());
-            String[] res = node.get(""+a).asText().split("\\|");
+            int a = sc.nextInt(node.get(e.getName().substring(2)).size());
+            String[] res = node.get(e.getName().substring(2)).get(""+a).asText().split("\\|");
             e.reply(res[0]).queue();
             e.getChannel().sendMessage(res[1]).queue();
             /*
@@ -80,15 +144,16 @@ public class Main extends ListenerAdapter
             }
              */
         }
-        if(e.getName().equals("add"))
+        if(e.getName().startsWith("add"))
         {
-            node.put(String.valueOf(node.size()+1), "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
+            node.putObject(e.getName().substring(3)).put(String.valueOf(node.get(e.getName().substring(3)).size()), "%s|%s".formatted(e.getOption("メッセージ").getAsString(), e.getOption("画像url").getAsString()));
             reload();
             e.reply("✅ 登録しました。").setEphemeral(true).queue();
         }
-        if(e.getName().equals("delete"))
+        if(e.getName().startsWith("delete"))
         {
-            node.removeAll();
+
+                node.putObject(e.getName().substring(6));
             reload();
             e.reply("✅ 全削除しました。").setEphemeral(true).queue();
         }
