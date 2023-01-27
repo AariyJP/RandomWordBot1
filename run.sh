@@ -1,0 +1,1 @@
+java -jar RandomWordBot1.jar
